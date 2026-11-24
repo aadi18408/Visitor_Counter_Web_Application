@@ -1,0 +1,18 @@
+flowchart TD
+    U[User] --> S[Kubernetes NodePort Service]
+    S --> A[Flask Visitor Counter]
+    A --> R[Redis Service]
+    R --> D[(Redis Pod)]
+
+    A --> H[Horizontal Pod Autoscaler]
+    M[Metrics Server] --> H
+    H --> A
+
+    S -. Failover Simulation .-> B[Backup Deployment]
+    B --> R
+
+    subgraph Docker
+        C[Flask Container]
+        E[Redis Container]
+        C --> E
+    end
